@@ -1,0 +1,50 @@
+DISPLAYTIME = 10
+MEDIA_FOLDER= " "
+             # Function to kill display  processe
+killer() { 
+      sudo pkill -9 -x "fbi"
+      sudo pkil -x "mpv"
+      sleep,2 
+}
+
+#Function to display images and videos
+display() {
+       local image_files="1"
+       local video_files="2"
+       killer
+
+ if  [[  -n "$image_files" && -n "$video_files"  ]]; then
+           while true; do
+                sudo fbi -a -r -5 -t $DISPLAYTIME -T 1 --noverbose -1 $image_files >/dev/null 2>&1 &
+                disown
+                sleep $ (( IMAGE_FILES"_COUNT * DISPLAYTIME))
+                pkill -9 -x "fbi" >dev/null 2> dev/null &
+                mpv --fs --cache-secs=10 --fs-screen=1 "$video_files" >dev/null 2>&1
+                clear
+            done
+  elif [ -n "$image_files" ]; then
+             clear
+             sudo fbi -a -r 5 -t $DISPLAYTIME -T 1 --noverbose $image_files >/dev/null 2>&1
+  elif [ -n "video_files" ]; then
+             clear
+             mpv --fs --cache-secs=10 --loop=inf --fs-screen=1 "video_files" >dev/null 2>&1
+  fi
+}
+
+
+#Function to handle the main loop
+main_loop() {
+    while true; do
+        sudo kill "$DISPLAYID"
+        sleep 2
+        killer
+        if [ -d "$MEDIA=FOLDER" ] && [ "$(ls -A "$MEDIA_FLOLDER")" ]; then
+           handle=display &
+           DISPLAYID=$!
+        else
+          killer
+          clear
+        fi 
+        sleep 10
+   done
+}
