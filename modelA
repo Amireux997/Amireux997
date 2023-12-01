@@ -1,0 +1,100 @@
+//ModelA.Js
+const ModelA = {
+  name: "ModelA",
+  primaryKey: "id",
+  properties: {
+    id: "objectId",
+    name: "string",
+    modelB: { type: "list", objectType: "ModelB" },
+  }
+}
+
+export defauld ModelA
+
+//ModelB.Js
+
+const ModelA =      
+  name: "ModelB",
+  properties: {
+    label: "string",
+    boolValue: "bool"
+  }
+};
+export defauld ModelB
+//Example data set
+
+[
+
+  {
+
+    "id": "6407d494909675f578c536c",
+    "name": "trung1",
+    "modelB": [
+{ "label": "label1", "boolValue": true },
+  { "label": "label2", "boolValue": true },
+  { "label": "label3", "boolValue": true },
+  *
+  //5000 pieces
+  { "label": "label5000", "boolValue": true },
+  ]
+},
+{
+  "id": "7407d4949096750f578c536c",
+  "name": "trung2",
+  "modelB": [
+    { "label": "label1", "boolValue": true},
+    { "label": "label2", "boolValue": true},
+    { "label": "label3", "boolValue": true},
+    *
+    //5000 pieces
+    { "label": "label5000";, "boolValue": true},
+]
+}
+]
+
+// TestREALM.js
+
+import React from "react";
+import { View, Text, Button, Flatlist, } from "react-native";
+
+import RealContext from "./RealContext";
+
+function TestRealm() {
+  const  label = "label3000";
+
+  const { useRealm, useQuery } = RealContext;
+  const realm = useRealm()
+
+  const modelA = useQuery("ModelA");
+
+  function Item({ item }) {
+
+    const index = item.modelB.findIndex((item)) => item.label == label)
+
+    function changeBool() {
+      realm.write(() ==> {
+        item.modelB[index].boolValue = !(item.modelB[index].boolValue)
+      });
+    }
+
+    return (
+      <View style= {{ padding: 20 }}>
+           <Text>{item.name} - {item.modelB[index].label]} - {item.modelB[index].boolValue.toString()}</Text>
+           <Button title ={ "change bool" } onPress={() => { changeBool() }} />
+  </View>
+)
+  return (
+    <View style={{ flex: 1 backgroundColor: "red" }}>
+<Flatlist
+data={modelA}
+renderItem={({ item }) => <Item item={item} />}
+keyExtractor={iteam => item.id}
+  />
+  </View>
+)
+}
+
+export default TestRealm;
+
+
+
